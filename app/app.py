@@ -56,7 +56,9 @@ with tab1:
     st.subheader("What customers are complaining about")
     cats=w.category.value_counts().rename_axis("category").reset_index(name="tickets")
     cats["share"]=cats.tickets/len(w)
-    st.dataframe(cats,use_container_width=True,hide_index=True)
+    cats_display=cats.copy()
+    cats_display["share"]=cats_display["share"].map("{:.1%}".format)
+    st.dataframe(cats_display,use_container_width=True,hide_index=True)
     st.altair_chart(complaint_mix(cats),use_container_width=True,theme=None)
     st.subheader("Change vs previous week")
     changes=top_category_changes(t,selected)
@@ -65,23 +67,21 @@ with tab1:
     topics=topic_digest(w,6)
     for x in topics:
         st.markdown(f"**Theme {x['topic']} — {', '.join(x['keywords'])}** · approximately {x['volume']} messages")
-    st.subheader("Mature 30-day repeat contacts by complaint")
+    st.subheader("Mature 30-day repeat-contact proxy by complaint")
     mature=t[t.completed & t.resolved_dt.le(cutoff)]
     repeat_by_category=(mature.groupby("category").repeat_30d
                         .agg(completed="size",repeats="sum",rate="mean")
                         .reset_index().sort_values("rate",ascending=False))
-    st.dataframe(repeat_by_category,use_container_width=True,hide_index=True)
+    repeat_display=repeat_by_category.copy()
+    repeat_display["rate"]=repeat_display["rate"].map("{:.1%}".format)
+    st.dataframe(repeat_display,use_container_width=True,hide_index=True)
     st.altair_chart(repeat_rates(repeat_by_category),use_container_width=True,theme=None)
     st.caption("Same customer, product and category; later open tickets count. Only cases with 30 days of follow-up are included.")
-    st.subheader("Operational signals")
-    st.write({
-        "repeat contacts (mature completed tickets only)": int(eligible.repeat_30d.sum()),
-        "mature completed tickets": len(eligible),
-        "first-response SLA breaches": int(w.breach.sum()),
-        "tickets transferred": int((w.transfers>0).sum()),
-        "refund tickets": int(w.refund_amount_inr.notna().sum()),
-        "replacement tickets": int((w.replacement_issued=="Y").sum()),
-    })
+    st.subheader("Operational signals — selected week")
+    st.dataframe(pd.DataFrame([
+        {"Signal":"First-response SLA breaches", "Value":f"{int(w.breach.sum())} / {len(w)} ({w.breach.mean():.1%})"},
+        {"Signal":"Tickets transferred", "Value":f"{int((w.transfers>0).sum())} / {len(w)} ({(w.transfers>0).mean():.1%})"},
+    ]),use_container_width=True,hide_index=True)
 
 with tab2:
     teams=["All"]+sorted(t.loc[t.tier==1,"team"].dropna().unique().tolist())

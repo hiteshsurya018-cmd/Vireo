@@ -1,6 +1,6 @@
 # Vireo Audio support intelligence
 
-Streamlit dashboard and CSV digest for the supplied support export. The weekly view shows complaint categories, prior-week changes, exploratory message themes, repeat contacts, and a Tier-1 closure leaderboard. Two charts show complaint mix and mature repeat rates. Python 3.11+ is required.
+Streamlit dashboard and CSV digest for the supplied support export. The weekly view shows complaint categories and shares, prior-week changes, exploratory message themes, two selected-week operational signals, and a Tier-1 closure leaderboard. A separate historical section shows the mature 30-day repeat-contact proxy by complaint. The two charts show complaint mix and mature repeat rates against the 10% target. Python 3.11+ is required.
 
 ## Start
 
