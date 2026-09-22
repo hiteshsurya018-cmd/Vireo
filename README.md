@@ -45,6 +45,8 @@ See `docs/` for the memo, submission form, decision log, and recording guide. Th
 
 `web/` is an aggregate-only historical snapshot for Vercel. It contains counts, rates, product/category summaries, and agent IDs; it does not contain ticket text, customer IDs, or raw CSVs. The live local Streamlit app remains the full analysis tool.
 
+Production URL: https://vireo-support-intelligence.vercel.app
+
 To refresh the public snapshot after receiving a new export, run:
 
 ```powershell

@@ -1,0 +1,11 @@
+data/
+outputs/
+.venv/
+.git/
+.vercel/
+app/
+scripts/
+docs/
+README.md
+requirements.txt
+*.zip

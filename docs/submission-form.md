@@ -2,7 +2,7 @@
 
 ## What did you build, and what business outcome does it move? State the number and the money.
 
-A local Streamlit weekly complaint digest, Tier-1 resolution-week volume leaderboard, and CSV export with migration deduplication and QA. The digest also shows product complaint hotspots, a weekly action queue combining trend and repeat/SLA signals, and SLA exposure by channel. The goal is to lower the mature 30-day repeat-contact proxy from **13.06% (1,369 / 10,484)** to **10.0%**. At 650 contacts/week, 13 weeks, and Rs 290/contact, that is `650 × 13 × (0.1305799 - 0.10) × 290 = Rs 74,936 per quarter` in potential avoided contact cost. This is a planning value, not booked savings.
+A local Streamlit weekly complaint digest, Tier-1 resolution-week volume leaderboard, and CSV export with migration deduplication and QA. An aggregate-only public snapshot is deployed at https://vireo-support-intelligence.vercel.app. The digest also shows product complaint hotspots, a weekly action queue combining trend and repeat/SLA signals, and SLA exposure by channel. The goal is to lower the mature 30-day repeat-contact proxy from **13.06% (1,369 / 10,484)** to **10.0%**. At 650 contacts/week, 13 weeks, and Rs 290/contact, that is `650 × 13 × (0.1305799 - 0.10) × 290 = Rs 74,936 per quarter` in potential avoided contact cost. This is a planning value, not booked savings.
 
 ## What does one run cost, and what would a month cost at Vireo's volume (roughly 650 tickets a week)? Show the arithmetic. If you used no paid calls, say so.
 
@@ -22,7 +22,7 @@ I kept the digest and leaderboard, but excluded Tier 2 from volume comparison as
 
 ## What is wrong with what you are handing us?
 
-The repeat metric is a proxy, customer-message topics can be noisy, and the leaderboard lacks staffing hours, case difficulty, and leave. The app reads local exports rather than a live helpdesk. The workspace did not include the referenced `email-thread.txt` or original `README.txt`, so assumptions attributed to those documents cannot be confirmed here. The policy supplies the key definitions. No actual screen recording or public hosting link has been produced in this workspace.
+The repeat metric is a proxy, customer-message topics can be noisy, and the leaderboard lacks staffing hours, case difficulty, and leave. The local app reads exports rather than a live helpdesk; the public Vercel dashboard is a historical aggregate snapshot, not a live integration. The workspace did not include the referenced `email-thread.txt` or original `README.txt`, so assumptions attributed to those documents cannot be confirmed here. The policy supplies the key definitions. No actual screen recording has been produced in this workspace.
 
 ## What did you deliberately leave out, and why that rather than something else?
 
