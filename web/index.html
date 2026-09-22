@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b1220">
+  <title>Vireo Audio | Support Intelligence</title>
+  <link rel="stylesheet" href="/styles.css">
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <div class="shell">
+    <header class="masthead">
+      <div class="brand"><div class="brandmark">V</div><div><strong>Vireo Audio</strong><span>SUPPORT INTELLIGENCE</span></div></div>
+      <div class="header-right"><span class="snapshot-dot"></span> Historical support snapshot <span id="as-of"></span></div>
+    </header>
+
+    <main>
+      <section class="intro">
+        <div><p class="eyebrow">WEEKLY OPERATIONS REVIEW</p><h1>What customers need,<br><em>week by week.</em></h1><p class="intro-copy">A focused view of complaint volume, repeat contacts, response times, and frontline work.</p></div>
+        <div class="week-control"><label for="week-select">REPORTING WEEK</label><select id="week-select" aria-label="Reporting week"></select><small>Complete weeks only · Monday to Sunday</small></div>
+      </section>
+
+      <section class="kpis" aria-label="Key measures">
+        <div class="kpi"><span>Tickets opened</span><strong id="kpi-tickets">—</strong><small id="kpi-ticket-note">Selected week</small></div>
+        <div class="kpi"><span>30-day repeat contact</span><strong id="kpi-repeat">—</strong><small id="kpi-repeat-note">Mature cases only</small></div>
+        <div class="kpi"><span>First-response SLA</span><strong id="kpi-sla">—</strong><small id="kpi-sla-note">Breached tickets</small></div>
+        <div class="kpi"><span>Transferred</span><strong id="kpi-transfers">—</strong><small>Tickets with a hand-off</small></div>
+      </section>
+
+      <section class="goal-band">
+        <div><p class="eyebrow">THE BUSINESS GOAL</p><h2>Move repeat contacts from <span id="baseline">13.1%</span> to 10.0%</h2><p>Using the policy's Rs 290 blended contact cost, that is an estimated <strong id="quarter-value">Rs 74,936</strong> in avoided contact cost per quarter at 650 tickets a week.</p></div>
+        <div class="goal-rail"><span>CURRENT</span><div class="track"><i id="baseline-bar"></i><b id="target-marker"></b></div><span>TARGET 10%</span></div>
+      </section>
+
+      <div class="section-heading"><div><p class="eyebrow">01 / DEMAND</p><h2>Ticket flow and complaint mix</h2></div><p>See the figures first, then the pattern.</p></div>
+      <section class="grid two">
+        <article class="panel"><div class="panel-head"><h3>12-week ticket trend</h3><span>Opened tickets</span></div><div id="trend-table" class="table-wrap"></div><div id="trend-chart" class="column-chart" aria-label="12-week ticket trend"></div></article>
+        <article class="panel"><div class="panel-head"><h3>Complaints this week</h3><span>Ranked by volume</span></div><div id="complaint-table" class="table-wrap"></div><div id="complaint-chart" class="bar-list"></div></article>
+      </section>
+
+      <div class="section-heading"><div><p class="eyebrow">02 / RESOLUTION</p><h2>Where cases come back</h2></div><p>Repeat rates use completed cases with a full 30-day follow-up window.</p></div>
+      <section class="grid two">
+        <article class="panel"><div class="panel-head"><h3>Repeat contact by issue</h3><span>All mature cases</span></div><div id="repeat-table" class="table-wrap"></div><div id="repeat-chart" class="bar-list"></div></article>
+        <article class="panel"><div class="panel-head"><h3>Product complaint hotspots</h3><span>Above the 10% target</span></div><div id="product-table" class="table-wrap"></div><div id="product-chart" class="bar-list"></div></article>
+      </section>
+
+      <div class="section-heading"><div><p class="eyebrow">03 / SERVICE</p><h2>Response and workload</h2></div><p>Use the agent view as a volume measure, alongside quality and staffing context.</p></div>
+      <section class="grid two">
+        <article class="panel"><div class="panel-head"><h3>First-response SLA by channel</h3><span>Selected week</span></div><div id="sla-table" class="table-wrap"></div><div id="sla-chart" class="bar-list"></div></article>
+        <article class="panel"><div class="panel-head"><h3>Tier-1 completed tickets</h3><span>Agent IDs · resolution week</span></div><div id="agent-table" class="table-wrap"></div><div id="agent-chart" class="bar-list"></div></article>
+      </section>
+
+      <aside class="method"><div class="method-icon">i</div><div><strong>How to read this report</strong><p>This is a historical, aggregate-only snapshot through <span id="method-date"></span>, not a live helpdesk feed. A repeat contact means the same customer contacted support again about the same product and category within 30 days after resolution. It is a proxy for the same issue. Recent weeks remain pending until the observation window closes. The full local app includes customer-message themes and data-quality checks.</p></div></aside>
+    </main>
+    <footer><span>VIREO AUDIO · SUPPORT OPERATIONS</span><span>Prepared from the supplied 2025–2026 export</span></footer>
+  </div>
+</body>
+</html>
