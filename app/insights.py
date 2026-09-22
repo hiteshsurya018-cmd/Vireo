@@ -56,9 +56,9 @@ def leaderboard(t, week=None, team=None):
         x["closed_week_start"]=x.resolved_dt.dt.to_period("W-SUN").dt.start_time
     if week is not None: x=x[x.closed_week_start==pd.Timestamp(week)]
     if team and team!="All": x=x[x.team==team]
-    return (x.groupby(["team","agent_id","name","site","shift"])
+    return (x.groupby(["team","agent_id","name"])
              .size().reset_index(name="tickets_closed")
-             .sort_values(["team","tickets_closed"],ascending=[True,False]))
+             .sort_values(["tickets_closed","agent_id"],ascending=[False,True]))
 
 def _clean(s):
     s=re.sub(r"vr\d+"," ",str(s).lower())
@@ -82,10 +82,8 @@ def topic_digest(df, n_topics=6):
         inds=comp.argsort()[-7:][::-1]
         keywords=[terms[j] for j in inds if terms[j] not in STOP_PHRASES][:6]
         weights=W[:,i]
-        top_idx=np.argsort(weights)[-3:][::-1]
-        examples=df.iloc[top_idx]["customer_message"].tolist()
         result.append({"topic":i+1,"keywords":keywords,"volume":int((weights>0.10).sum()),
-                       "share":float((weights>0.10).mean()),"examples":examples})
+                       "share":float((weights>0.10).mean())})
     return sorted(result,key=lambda r:r["volume"],reverse=True)
 
 def top_category_changes(t, week):
@@ -109,24 +107,6 @@ def product_repeat_hotspots(t, products, cutoff, min_completed=50):
     out.insert(0,"product",out.product_sku.map(names).fillna(out.product_sku))
     return out.sort_values(["excess_repeats_vs_target","completed"],ascending=False).head(10)
 
-def weekly_action_queue(t, week, cutoff):
-    w=t[t.week_start==pd.Timestamp(week)]
-    now=w.groupby("category").agg(
-        tickets=("ticket_id","size"),
-        sla_breaches=("breach","sum"),
-        transfers=("transfers",lambda x:(x>0).sum()),
-    ).reset_index()
-    now["sla_breach_rate"]=now.sla_breaches/now.tickets
-    now["transfer_rate"]=now.transfers/now.tickets
-    trend=top_category_changes(t,week)[["category","change"]]
-    mature=t[t.completed & t.resolved_dt.le(cutoff)]
-    history=(mature.groupby("category").repeat_30d
-             .agg(mature_cases="size",historical_repeat_rate="mean").reset_index())
-    out=now.merge(trend,on="category",how="left").merge(history,on="category",how="left")
-    return out[["category","tickets","change","historical_repeat_rate",
-                "sla_breach_rate","transfer_rate","mature_cases"]].sort_values(
-                    ["change","tickets"],ascending=False)
-
 def channel_sla_exposure(w):
     out=w.groupby("channel").breach.agg(tickets="size",breaches="sum",breach_rate="mean").reset_index()
     out["potential_credit_inr"]=out.breaches*350
@@ -139,5 +119,5 @@ def qa_checks(t):
     checks.append(("completed without resolved_at", int((t.completed & t.resolved_dt.isna()).sum()), "0 expected"))
     checks.append(("negative response minutes", int((t.response_min<0).sum()), "0 expected"))
     checks.append(("negative resolution minutes", int(((t.resolved_dt-t.created_dt).dt.total_seconds()<0).sum()), "0 expected"))
-    checks.append(("unknown agent ids", int(t.agent_id.isna().sum()), "0 expected"))
+    checks.append(("missing agent ids", int(t.agent_id.isna().sum()), "0 expected"))
     return pd.DataFrame(checks,columns=["check","count","expectation"])

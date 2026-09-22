@@ -1,6 +1,6 @@
 # Vireo Audio support intelligence
 
-Streamlit dashboard and CSV digest for the supplied support export. The weekly view includes interactive charts for ticket volume, complaint mix, repeat rates, product hotspots, category movement, and channel SLA. Python 3.11+ is required.
+Streamlit dashboard and CSV digest for the supplied support export. The weekly view shows complaint categories, prior-week changes, exploratory message themes, repeat contacts, and a Tier-1 closure leaderboard. Two charts show complaint mix and mature repeat rates. Python 3.11+ is required.
 
 ## Start
 
@@ -33,7 +33,7 @@ Reduce the mature 30-day repeat-contact proxy from **13.06% (1,369 / 10,484)** t
 
 ## Validation and limits
 
-The batch command writes a summary, weekly metrics, themes, leaderboard, category changes, product repeat hotspots, a weekly action queue, channel SLA exposure, and QA checks. The export has 12,528 rows, including 653 duplicate IDs; 11,875 IDs remain. QA finds no duplicate IDs, missing creation/resolution times for completed tickets, negative durations, or missing agent IDs after correcting legacy time.
+The batch command writes a summary, weekly metrics, themes, leaderboard, category changes, and QA checks. The export has 12,528 rows, including 653 duplicate IDs; 11,875 IDs remain. QA finds no duplicate IDs, missing creation/resolution times for completed tickets, negative durations, or missing agent IDs after correcting legacy time.
 
 A TF-IDF classifier agrees with existing intake categories on 81.98% of a stratified 2,375-ticket holdout; disagreement is 18.02%. This tests category consistency, **not** NMF theme accuracy or the repeat-contact proxy. Mixed issues, brief messages, and IVR transcripts remain difficult. The proxy has no issue ID, so it can miss retagged issues or count unrelated contacts.
 

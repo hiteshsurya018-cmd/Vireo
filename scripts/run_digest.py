@@ -6,8 +6,7 @@ import sys
 sys.path.insert(0,str(Path(__file__).parents[1]/"app"))
 from data import load_tables, prepare
 from insights import (add_repeat, weekly_summary, leaderboard, topic_digest,
-                      qa_checks, top_category_changes, product_repeat_hotspots,
-                      weekly_action_queue, channel_sla_exposure)
+                      qa_checks, top_category_changes)
 
 p=argparse.ArgumentParser()
 p.add_argument("--data-dir",required=True)
@@ -22,14 +21,11 @@ ws.to_csv(out/"weekly_metrics.csv",index=False)
 latest=sorted(t.week_start.dropna().unique())[-1]
 latest=max(x for x in t.week_start.dropna().unique() if x+pd.Timedelta(days=7)<=t.created_dt.max())
 w=t[t.week_start==latest]
-pd.DataFrame(topic_digest(w,6)).drop(columns=["examples"],errors="ignore").to_csv(out/"latest_themes.csv",index=False)
+pd.DataFrame(topic_digest(w,6)).to_csv(out/"latest_themes.csv",index=False)
 leaderboard(t,latest,"All").to_csv(out/"latest_agent_leaderboard.csv",index=False)
 qa_checks(t).to_csv(out/"qa_checks.csv",index=False)
 top_category_changes(t,latest).to_csv(out/"latest_category_changes.csv",index=False)
 cutoff=t.created_dt.max()-pd.Timedelta(days=30)
-product_repeat_hotspots(t,tables["products"],cutoff).to_csv(out/"product_repeat_hotspots.csv",index=False)
-weekly_action_queue(t,latest,cutoff).to_csv(out/"latest_action_queue.csv",index=False)
-channel_sla_exposure(w).to_csv(out/"latest_channel_sla.csv",index=False)
 eligible=t[t.completed & t.resolved_dt.le(cutoff)]
 rate=float(eligible.repeat_30d.mean())
 value=650*13*(rate-.10)*290
