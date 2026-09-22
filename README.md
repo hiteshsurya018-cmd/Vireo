@@ -10,14 +10,7 @@ python -m venv .venv
 .venv\Scripts\python -m streamlit run app/app.py
 ```
 
-On macOS/Linux, replace `.venv\Scripts\python` with `.venv/bin/python`. Place the five supplied CSV files in `data/raw/`, or enter another folder in the app sidebar. Raw files are excluded from Git.
-
-For batch output and evaluation:
-
-```powershell
-.venv\Scripts\python scripts/run_digest.py --data-dir data/raw --out-dir outputs
-.venv\Scripts\python scripts/evaluate_text_consistency.py --data-dir data/raw --out outputs/evaluation.json
-```
+On macOS/Linux, replace `.venv\Scripts\python` with `.venv/bin/python`. Place the supplied CSV files required by the tool in data/raw/, or enter another folder in the app sidebar. Raw files are excluded from Git.
 
 ## Definitions
 
@@ -29,7 +22,7 @@ For batch output and evaluation:
 
 ## Business goal
 
-Reduce the mature 30-day repeat-contact proxy from **13.06% (1,369 / 10,484)** to **10.0%**. At 650 contacts a week, 13 weeks, and the policy's Rs 290 blended contact cost, the planning value is **about Rs 74,900 per quarter**. Savings require actual avoided contacts; the tool helps find and track them.
+Reduce the mature 30-day repeat-contact proxy from **13.06% (1,369 / 10,484)** to **10.0%**. At 650 contacts a week, 13 weeks, and the policy's ₹290 blended contact cost, the planning value is **about ₹74,900 per quarter**. Savings require actual avoided contacts; the tool helps find and track them.
 
 ## Validation and limits
 
@@ -41,16 +34,4 @@ A 20-pair manual spot check of flagged repeats found 17 plausible matches and 3 
 
 See `docs/` for the memo, submission form, decision log, and recording guide. The workspace lacks `email-thread.txt` and the original `README.txt`; assumptions based on those must be rechecked if the files become available.
 
-## Public dashboard
 
-`web/` is an aggregate-only historical snapshot for Vercel. It contains counts, rates, product/category summaries, and agent IDs; it does not contain ticket text, customer IDs, or raw CSVs. The live local Streamlit app remains the full analysis tool.
-
-Production URL: https://vireo-support-intelligence.vercel.app
-
-To refresh the public snapshot after receiving a new export, run:
-
-```powershell
-.venv\Scripts\python scripts/export_public_dashboard.py --data-dir data/raw --out web/data.json
-```
-
-Vercel serves `web/` through the root `vercel.json`. The public view has no live helpdesk connection and should be labelled with the export date shown on the page.
